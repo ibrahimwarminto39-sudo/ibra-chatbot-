@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORACULUM - AI Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Fauna+One&display=swap" rel="stylesheet">
+</head>
+<body class="roman-theme">
+    <div class="chat-container roman-card">
+        <header class="roman-header">
+            <h1>ORACULUM ROMANUM</h1>
+            <p>Konsultasi dengan Penasihat Kekaisaran</p>
+        </header>
+
+        <div id="chat-box" class="chat-box">
+            <div class="message bot-message">
+                <strong>Oracle:</strong> Salve! Apa yang ingin kamu tanyakan pada Kekaisaran hari ini?
+            </div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Tuliskan pertanyaanmu..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()" class="roman-btn">KIRIM</button>
+        </div>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const input = document.getElementById('user-input');
+            const chatBox = document.getElementById('chat-box');
+            const text = input.value.trim();
+
+            if (!text) return;
+
+            chatBox.innerHTML += `<div class="message user-message"><strong>Anda:</strong> ${text}</div>`;
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            const loadingId = 'loading-' + Date.now();
+            chatBox.innerHTML += `<div class="message bot-message" id="${loadingId}"><em>Oracle sedang berpikir...</em></div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+
+                const data = await response.json();
+                document.getElementById(loadingId).remove();
+
+                if (data.status === 'success') {
+                    chatBox.innerHTML += `<div class="message bot-message"><strong>Oracle:</strong> ${data.reply}</div>`;
+                } else {
+                    chatBox.innerHTML += `<div class="message error-message"><strong>Sistem:</strong> ${data.reply}</div>`;
+                }
+            } catch (err) {
+                document.getElementById(loadingId).remove();
+                chatBox.innerHTML += `<div class="message error-message"><strong>Sistem:</strong> Terjadi kesalahan koneksi.</div>`;
+            }
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+    </script>
+</body>
+</html>

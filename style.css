@@ -1,0 +1,84 @@
+:root {
+    --bg-color: #1a1612;
+    --card-bg: #2a241e;
+    --gold: #c5a059;
+    --gold-hover: #e5be75;
+    --crimson: #800020;
+    --text-color: #e8e3d9;
+    --border-color: #5c4a33;
+}
+
+body.roman-theme {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Fauna One', serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+h1, button {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 2px;
+}
+
+.roman-card {
+    background: var(--card-bg);
+    border: 3px solid var(--gold);
+    box-shadow: 0 0 15px rgba(197, 160, 89, 0.2), inset 0 0 15px rgba(0,0,0,0.5);
+    padding: 25px;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.chat-container { max-width: 700px; height: 85vh; display: flex; flex-direction: column; }
+
+.roman-header {
+    text-align: center;
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.roman-header h1 { color: var(--gold); margin: 0; }
+
+.chat-box {
+    flex: 1;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    background: rgba(0,0,0,0.2);
+    margin-bottom: 15px;
+}
+
+.message { margin-bottom: 12px; line-height: 1.5; }
+.user-message { color: var(--gold-hover); text-align: right; }
+.bot-message { color: var(--text-color); }
+.error-message { color: #ff6b6b; }
+
+.input-area { display: flex; gap: 10px; }
+
+input[type="text"] {
+    flex: 1;
+    padding: 12px;
+    background: #120f0d;
+    border: 1px solid var(--gold);
+    color: var(--text-color);
+    font-family: 'Fauna One', serif;
+}
+
+.roman-btn {
+    background: var(--crimson);
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 12px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.roman-btn:hover { background: var(--gold); color: #000; }
